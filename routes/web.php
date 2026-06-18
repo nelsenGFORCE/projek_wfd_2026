@@ -38,6 +38,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('studios', AdminStudioController::class);
     Route::resource('schedules', AdminScheduleController::class);
     Route::get('transactions', [AdminTransactionController::class, 'index'])->name('transactions.index');
+    Route::get('transactions/{transaction}', [AdminTransactionController::class, 'show'])->name('transactions.show');
 });
 
 require __DIR__.'/auth.php';

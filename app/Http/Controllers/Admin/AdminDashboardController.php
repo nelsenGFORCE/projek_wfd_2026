@@ -16,12 +16,14 @@ class AdminDashboardController extends Controller
         $schedulesToday = Schedule::whereDate('show_date', today())->count();
         $totalTransactions = Transaction::count();
         $revenue = Transaction::where('payment_status', 'success')->sum('total_price');
+        $pendingTransactions = Transaction::where('payment_status', 'pending')->count();
 
         return view('admin.dashboard', compact(
             'totalMovies',
             'schedulesToday',
             'totalTransactions',
-            'revenue'
+            'revenue',
+            'pendingTransactions'
         ));
     }
 }

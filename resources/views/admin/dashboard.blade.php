@@ -77,6 +77,26 @@
                 <a href="{{ route('admin.transactions.index') }}" class="text-white hover:underline opacity-80 hover:opacity-100 transition-opacity">View details &rarr;</a>
             </div>
         </div>
+
+        <!-- Pending Transactions -->
+        @if(($pendingTransactions ?? 0) > 0)
+        <div class="bg-gradient-to-br from-red-500 to-red-700 rounded-xl shadow-lg p-6 text-white transform hover:scale-105 transition-transform duration-200 ring-4 ring-red-300 ring-opacity-50">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium uppercase tracking-wide opacity-80">Pending Orders</p>
+                    <p class="text-3xl font-bold mt-2">{{ $pendingTransactions ?? 0 }}</p>
+                </div>
+                <div class="bg-white bg-opacity-20 rounded-full p-3">
+                    <svg class="w-8 h-8 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center text-sm">
+                <a href="{{ route('admin.transactions.index', ['status' => 'pending']) }}" class="text-white hover:underline opacity-80 hover:opacity-100 transition-opacity">View pending orders &rarr;</a>
+            </div>
+        </div>
+        @endif
     </div>
 
     <!-- Quick Actions -->

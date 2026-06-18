@@ -26,10 +26,11 @@
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Booking Code</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Customer</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Movie</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Schedule</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Seats</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Total</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Date</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Action</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -41,9 +42,12 @@
                             <div class="text-xs text-gray-500">{{ $transaction->user->email }}</div>
                         </td>
                         <td class="px-6 py-4 text-gray-700">{{ $transaction->schedule->movie->title }}</td>
-                        <td class="px-6 py-4 text-sm text-gray-600">
-                            {{ $transaction->schedule->studio->studio_name }}<br>
-                            {{ $transaction->schedule->show_date->format('d M Y') }} {{ \Carbon\Carbon::parse($transaction->schedule->start_time)->format('H:i') }}
+                        <td class="px-6 py-4">
+                            <div class="flex flex-wrap gap-1">
+                                @foreach($transaction->transactionDetails as $detail)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold {{ $transaction->payment_status === 'success' ? 'bg-red-100 text-red-800' : ($transaction->payment_status === 'pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-500') }}">{{ $detail->seat->seat_number }}</span>
+                                @endforeach
+                            </div>
                         </td>
                         <td class="px-6 py-4 font-semibold text-gray-800">Rp {{ number_format($transaction->total_price, 0, ',', '.') }}</td>
                         <td class="px-6 py-4">
@@ -56,10 +60,13 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">{{ $transaction->created_at->format('d M Y, H:i') }}</td>
+                        <td class="px-6 py-4">
+                            <a href="{{ route('admin.transactions.show', $transaction) }}" class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-petra text-white hover:bg-petra-dark transition-colors">Detail</a>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                        <td colspan="8" class="px-6 py-12 text-center text-gray-500">
                             <p class="text-lg font-medium">No transactions found</p>
                         </td>
                     </tr>

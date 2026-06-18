@@ -28,4 +28,11 @@ class AdminTransactionController extends Controller
 
         return view('admin.transactions.index', compact('transactions'));
     }
+
+    public function show(Transaction $transaction)
+    {
+        $transaction->load(['user', 'schedule.movie', 'schedule.studio', 'transactionDetails.seat']);
+
+        return view('admin.transactions.show', compact('transaction'));
+    }
 }
